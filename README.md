@@ -9,6 +9,12 @@ Features:
 * HSQLDB database for storing temperature and pressure data
 * Integration with BMP085 sensor using PI4J library
 
+Required software
+=================
+* Linux (preferrable Debian Wheezy)
+* Java
+* Wiring PI library (http://wiringpi.com/download-and-install/) [required by PI4J]
+
 I2C setup on PI
 ===============
 * connect BMP085 sensor 

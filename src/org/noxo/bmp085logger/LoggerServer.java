@@ -8,7 +8,7 @@ import org.noxo.bmp085logger.util.BMP085LoggerTask;
  
 public class LoggerServer  {
 	
-	final static long POLL_PERIOD_MS = 1 * 1000 * 60 * 30; // 30m
+	final static long POLL_PERIOD_MS = 1 * 1000 * 60 * 5; // 30m
 	
     public static void main(String[] args) throws Exception {
         

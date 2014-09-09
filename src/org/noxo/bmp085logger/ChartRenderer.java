@@ -2,6 +2,7 @@ package org.noxo.bmp085logger;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -36,7 +37,6 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
-
 import org.noxo.bmp085logger.dao.Database;
 import org.noxo.bmp085logger.dao.Database.MeasurementRange;
 import org.noxo.bmp085logger.model.Pressure;
@@ -197,6 +197,8 @@ public class ChartRenderer extends AbstractHandler {
         // http://www.javaworld.com/article/2072527/generating-a-climograph-with-jfreechart.html?page=2
         // http://www.java2s.com/Code/Java/Chart/JFreeChartOverlaidXYPlotDemo2.htm
  
+    	Font labelFont = new Font(null, Font.PLAIN, 11);
+    	
         OutputStream out = servletResponse.getOutputStream(); 
         String rangeParam = request.getParameter("range");
         boolean hourChart = rangeParam != null && rangeParam.equals("hourly");
@@ -205,9 +207,11 @@ public class ChartRenderer extends AbstractHandler {
  
             final DateAxis domainAxis = new DateAxis(hourChart ? "Time" : "Date");
             domainAxis.setTickMarkPosition(DateTickMarkPosition.MIDDLE);
-
+            domainAxis.setLabelFont(labelFont);
+            
             final ValueAxis pressureRangeAxis = new NumberAxis("Pressure (hPa)");
-            pressureRangeAxis.setRange(1000, 1030);
+            pressureRangeAxis.setRange(1000, 1020);
+            pressureRangeAxis.setLabelFont(labelFont);
             
             // #1 create pressure plot
             
@@ -221,8 +225,9 @@ public class ChartRenderer extends AbstractHandler {
                     pressureRenderer);
              
             final ValueAxis temperatureRangeAxis = new NumberAxis("Temperature (°C)");
-            temperatureRangeAxis.setRange(0, 35);
-
+            temperatureRangeAxis.setRange(10, 35);
+            temperatureRangeAxis.setLabelFont(labelFont);
+            
             // #2 create temperature plot
             
             final XYDataset temperatureData = hourChart ? createHourTemperatureDataset() : createWeekTemperatureDataset();
@@ -243,8 +248,9 @@ public class ChartRenderer extends AbstractHandler {
            
             JFreeChart mychart = new JFreeChart(null, null, plot, true);
             mychart.setBackgroundPaint(Color.WHITE);
+            mychart.getLegend().setItemFont(labelFont);
             
-            ChartUtilities.writeChartAsPNG(out, mychart, 600, 180);
+            ChartUtilities.writeChartAsPNG(out, mychart, 600, 170);
  
         } catch (Exception e) {
             System.err.println(e.toString()); /* Throw exceptions to log files */
